@@ -16,30 +16,28 @@ export function TaskList() {
 
   function handleCreateNewTask() {
    
-   if(!newTaskTitle) return alert('Preencha o input')
+    if(!newTaskTitle) return alert('Erro, preencha o campo de adcionar na lista')
+    const newTask = {
+      id: Math.random() * 100,
+      title: newTaskTitle,
+      isComplete: false
+    }
 
-   const newTask = {
-     id: Math.random(),
-     title: newTaskTitle,
-     isComplete: false
-   }
-
-   setTasks(oldState => [...oldState, newTask])
-   setNewTaskTitle('')
-    // chamamos o setTask e criamos um callback onde pegamos o valor antigo do state, e adcionamos tudo que ele ja tinha mais a nova task dessa forma mantemos a task antiga
+    // passando um array para settask, com tudo que ja tinha ...task + a nova task
+    setTasks([...tasks, newTask])
+    setNewTaskTitle('')
   }
   
   function handleToggleTaskCompletion(id: number) {
-    const completedTasks = tasks.map( task => task.id == id ? {
-      ...task,
-      isComplete: !task.isComplete
-    }: task)
-    console.log(completedTasks)
+    const completedTasks = tasks.map(task => {
+      return task.id == id 
+      ?  {...task, isComplete: !task.isComplete} : task
+    })
     setTasks(completedTasks)
   }
 
   function handleRemoveTask(id: number) {
-    const filteredTasks = tasks.filter( task => task.id !== id)
+    const filteredTasks = tasks.filter(task => task.id !== id)
     setTasks(filteredTasks)
   }
 
